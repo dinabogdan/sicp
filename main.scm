@@ -64,4 +64,31 @@
          (else -1))
     (+ a 1)) ;; 16
 
+;; Exercise 1.2
+
+(/ (+ 5 4 
+        (- 2 
+            (- 3
+                (+ 6 (/ 4 5)))))
+    (* 3 (- 6 2)(- 2 7))
+)
+
+;; Exercise 1.3
+;; it is incomplete because it not takes into consideration the values that are equal
+;; instead of using > we should use >=
+
+(define (sum-of-squares-of-larger-numbers x y z)
+  (cond ((and (> x y) (> x z))
+          (if (> y z) (sum-of-squares x y) (sum-of-squares x z)))
+        ((and (> y x) (> y z))
+          (if (> x z) (sum-of-squares y x)
+          (sum-of-squares y z)))
+        ((and (> z x) (> z y))
+          (if (> x y) (sum-of-squares z x)
+          (sum-of-squares z y)))
+  )
+)
+
+;; Exercise 1.4
+
 

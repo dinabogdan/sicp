@@ -6,4 +6,9 @@
     (+ (- 10 7)
       6))
 
-      
+;; define variables
+
+(define size 2)
+(define pi 3.14159)
+(define radius 10)
+(define circumference (* 2 pi radius))

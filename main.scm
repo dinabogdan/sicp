@@ -102,20 +102,45 @@
 
 ;; Square Roots by Newton's Method
 
+(define (average x y)
+  (/ (+ x y) 2))
+
 (define (sqrt x)
 
-  (define (average x y)
-    (/ (+ x y) 2))
-
-  (define (good-enough? guess x)
+  (define (good-enough? guess)
     (< (abs (- (square guess) x)) 0.001))
 
-  (define (improve guess x)
+  (define (improve guess)
     (average guess (/ x guess)))
 
-  (define (sqrt-iter guess x)
+  (define (sqrt-iter guess)
     (if (good-enough? guess x)
         guess
         (sqrt-iter (improve guess x) x)))
 
   (sqrt-iter 1.0 x))
+
+;; recursive factorial definition
+
+;;(define (factorial n)
+;;  (if (= n  1)
+;;      1
+;;      (* n (factorial (- n 1)))))
+
+;; linear iterative implementation of factorial
+
+(define (factorial n)
+  (fact-iter 1 1 n))
+
+(define (fact-iter product counter max-count)
+  (if (> counter max-count)
+    product
+    (fact-iter (* counter product) (+ counter 1) max-count)))
+
+;; Ackermann's function
+
+(define (A x y)
+  (cond ((= y 0) 0)
+        ((= x 0) (* 2 y))
+        ((= y 1) 2)
+        (else (A (- x 1) (A x (- y 1))))))

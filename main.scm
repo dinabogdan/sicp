@@ -91,4 +91,30 @@
 
 ;; Exercise 1.4
 
+(define (a-plus-abs-b a b) 
+  ((if (> b 0) + -) a b))
 
+;; Exercise 1.5
+
+(define (p) (p))
+(define (test x y)
+  (if (= x 0) 0 y))
+
+;; Square Roots by Newton's Method
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x) x)))
+
+(define (sqrt x)
+  (sqrt-iter 1.0 x))

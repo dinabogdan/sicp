@@ -162,3 +162,56 @@
   (if (= count 0)
     b
     (fib-iter (+ a b) a (- count 1))))
+
+;; Counting change
+
+(define (count-change amount) (cc amount 5))
+(define (cc amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+        (else (+ (cc amount (- kinds-of-coins 1))
+                 (cc (- amount        (first-denomination kinds-of-coins))
+                 kinds-of-coins)))))
+
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+
+;; Exercise 1.11
+
+;; Recursive implementation
+
+(define (rec-f n)
+  (cond ((< n 3) n)
+        (else (+ 
+                (rec-f (- n 1))
+                (* 2 (rec-f (- n 2)))
+                (* 3 (rec-f (- n 3)))))))
+
+;; iterative / tailrec implementation
+
+(define (iter-f n) 
+  (define (f a b c count) 
+    (cond ((< n 3) n) 
+          ((<= count 0) a) 
+          (else (f (+ a (* 2 b) (* 3 c)) a b (- count 1))))) 
+  (f 2 1 0 (- n 2))) 
+
+;; Exercise 1.12 - Pascal Triangle
+
+(define (pascal row column)
+  (if (or (= column 1) (= row column))
+      1
+      (+ (pascal (- row 1) (- column 1))
+         (pascal (- row 1) column))))
+
+
+(define (pascal-triangle row column)
+  (cond ((> column row) 0)
+        ((< column 0) 0)
+        ((= column 1) 1)
+        ((+ (pascal-triangle (- row 1) (- column 1))
+            (pascal-triangle (- row 1) column)))))

@@ -144,3 +144,21 @@
         ((= x 0) (* 2 y))
         ((= y 1) 2)
         (else (A (- x 1) (A x (- y 1))))))
+
+;; recursive and inefficient implementation of Fibonacci
+;; this implementation uses tree recursion
+
+(define (fib n)
+  (cond ((= n 0) 0)
+        ((= n 1) 1)
+        (else (+ (fib (- n 1))
+                 (fib (- n 2))))))
+
+;; an iterative and more efficient than the tree-recursive one implementation of Fibonacci
+
+(define (fib2 n)
+  (fib-iter 1 0 n))
+(define (fib-iter a b count)
+  (if (= count 0)
+    b
+    (fib-iter (+ a b) a (- count 1))))

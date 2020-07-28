@@ -298,3 +298,47 @@
   (define (try-it a)
     (= (expmod a n n) a))
   (try-it (+ 1 (random-integer n))))
+
+
+;; This function is a hack of simulating runtime primitive
+;; The scheme interpreter that I'm currently using doesn't have runtime primitive
+
+(define (date2runtime date)
+  ; HACK
+  ; wraps around occasionally!
+  (+  
+     (* (date-hour date) 60 60 1000) 
+     (* (date-minute date) 60 1000) 
+     (* (date-second date) 1000) 
+     (date-millisecond date)
+  )
+)
+
+(define (runtime) (date2runtime (current-date)))
+
+
+;; exercise 1.22
+
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
+
+(define (start-prime-test n start-time)
+  (cond ((prime? n) (report-prime (- (runtime) start-time)))
+      (else (display " not prime"))))
+      
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (search-for-primes startIndex endIndex)
+  (define (iter n)
+    (cond ((<= n endIndex) 
+            (timed-prime-test n)
+            (iter (+ n 2)))))
+  (iter (if (odd? startIndex) startIndex (+ startIndex 1))))
+
+;; exercise 1.23
+
+

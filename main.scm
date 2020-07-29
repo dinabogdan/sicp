@@ -274,7 +274,7 @@
 
 ;; n is prime iff n is its own smallest divisor
 
-(define (prime? n) (= n (smallest-divisor n)))
+(define (prime? n) (= n (optimized-smallest-divisor n)))
 
 ;; fermat test for finding if a number is prime
 
@@ -328,8 +328,10 @@
   (cond ((prime? n) (report-prime (- (runtime) start-time)))
       (else (display " not prime"))))
       
-(define (report-prime elapsed-time)
+(define (report-prime n elapsed-time)
+  (newline)
   (display " *** ")
+  (display n)
   (display elapsed-time))
 
 (define (search-for-primes startIndex endIndex)
@@ -340,5 +342,15 @@
   (iter (if (odd? startIndex) startIndex (+ startIndex 1))))
 
 ;; exercise 1.23
+
+(define (next input)
+  (if (= input 2) 3 (+ input 2)))
+
+(define (optimized-smallest-divisor n) (optimized-find-divisor n 2))
+
+(define (optimized-find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (next test-divisor)))))
 
 

@@ -407,3 +407,47 @@
 ;; (integral cube 0 1 0.01)
 ;; (integral cube 0 1 0.001)
 
+;; exercise 1.29
+;; Simpson's Rule of calculating integral of a function f
+
+(define (simpsons-rule f a b n)
+  (define h (/ (- b a) n))
+  (define (simpsons-term k)
+    (define y (f (+ a (* k h))))
+    (if (or (= k 0) (= k n)) y
+        (if (even? k) (* 2 y) (* 4 y))))
+  (* (/ h 3) (sum simpsons-term 0 inc n)))
+
+;; exercise 1.30
+;; this is an iterative/tail recursive implementation of sum function
+
+(define (iter-sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+;; exercise 1.31 a)
+
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+
+(define (new-factorial n)
+  (product identity 1 inc n))
+
+(define (pi-aproximation-next-term n)
+  (+ n 2))
+
+(define (pi-aproximation n)
+  (/ (* 
+      (product identity 2 pi-aproximation-next-term n)
+      (product identity 4 pi-aproximation-next-term (+ n 2))
+    )
+    (*
+      (product identity 3 pi-aproximation-next-term (+ n 1))
+      (product identity 3 pi-aproximation-next-term (+ n 1))
+    )))

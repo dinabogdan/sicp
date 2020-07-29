@@ -395,3 +395,15 @@
   (define (pi-next x)
     (+ x 4))
   (sum pi-term a pi-next b))
+
+;; procedure for computing the integral value of a function f between the limits a and b
+
+(define (integral f a b dx)
+  (define (add-dx x)
+    (+ x dx))
+  (* (sum f (+ a (/ dx 2.0)) add-dx b) dx))
+
+;; usage
+;; (integral cube 0 1 0.01)
+;; (integral cube 0 1 0.001)
+

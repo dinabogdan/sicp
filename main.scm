@@ -580,8 +580,32 @@
   (define (close-enough? v1 v2)
     (< (abs (- v1 v2)) error-tolerance))
   (define (try guess)
+    (display guess)
+    (newline)
     (let ((next (f guess)))
       (if (close-enough? guess next)
             next
             (try next))))
   (try first-guess))
+
+;; exercise 1.35
+
+(define (golden-ratio)
+  (fixed-point (lambda (x) (+ 1 (/ 1 x))) 1.0))
+
+;; exercise 1.36
+
+(define (x-to-the-x y)
+  (fixed-point (lambda (x) (/ (log y) (log x))) 10.0))
+
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+
+(define (new-sqrt x)
+  (fixed-point (lambda (y) (average y (/ x y))) 1.0))
+
+(define (average-damped-new-sqrt x)
+  (fixed-point (average-damp (lambda (y) (/ x y))) 1.0))
+
+(define (cube-root x)
+  (fixed-point (average-damp (lambda (y) (/ x (square y)))) 1.0))

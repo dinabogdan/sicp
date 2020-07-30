@@ -493,3 +493,48 @@
 
 (define (sum-of-primes-squares a b)
   (filtered-accumulate + 0 square a inc b prime?))
+
+;; refactoring above defined procedures such as pi-sum or pi-term for using lambdas
+
+(define (new-pi-sum a b)
+  (sum (lambda (x) (/ 1.0 (* x (+ x 2))))
+        a
+        (lambda (x) (+ x 4))
+        b))
+
+;; Compute f(x, y) = x(1+xy)^2 + y(1-y) + (1+xy)(1-y)
+;; use the following expressions:
+;;      a = 1 + xy
+;;      b = 1 - y
+;;     f(x,y) = xa^2 + yb + ab
+
+;; define an auxiliary procedure to bind the local variables
+;; this solution is called f1
+
+(define (f1 x y)
+  (define (f-helper a b)
+    (+ (* x (square a))
+       (* y b)
+       (* a b)))
+  (f-helper (+ 1 (* x y))
+            (- 1 y)))
+
+;; using lambda expression to specify an anonymous procedure for binding local variables
+;; this solution is called f2
+
+(define (f2 x y)
+  ((lambda (a b)
+      (+ (* x (square a))
+         (* y b)
+         (* a b))
+    ) (+ 1 (* x y)) (- 1 y)))
+
+;; using the special form let to define and specify the local variables
+;; this solution is called f3
+
+(define (f3 x y)
+  (let ((a (+ 1 (* x y)))
+        (b (- 1 y)))
+    (+ (* x (square a))
+       (* y b)
+       (* a b)))

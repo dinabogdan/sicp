@@ -454,7 +454,7 @@
       (iter (next a) (* result (term a)))))
   (iter a 1))
 
-;; exercise 1.32 - abstract even more through accumulate function
+  ;; exercise 1.32 - abstract even more through accumulate function
 
 
 ;; recursive implementation
@@ -475,5 +475,21 @@
       (iter (next a) (combiner result (term a)))))
   (iter a null-value))
 
+;; exercise 1.33
+;; filtered-accumulate
 
-  
+(define (filtered-accumulate combiner null-value term a next b filter)
+  (if (> a b)
+    null-value
+    (if (filter a)
+      (combiner
+        (term a) 
+        (filtered-accumulate combiner null-value term (next a) next b filter))
+      (combiner 
+        null-value
+        (filtered-accumulate combiner null-value term (next a) next b filter)))))
+
+;; The sum of squares of all prime numbers in a given interval a b
+
+(define (sum-of-primes-squares a b)
+  (filtered-accumulate + 0 square a inc b prime?))

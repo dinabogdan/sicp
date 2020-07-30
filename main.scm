@@ -627,5 +627,36 @@
 ;; new implementation of sqrt function by using the newtons-method
 
 (define (sqrt x)
-  (newtons-method 
+  (newtons-method
     (lambda (y) (- (square y) x)) 1.0))
+
+;; exercise 1.40
+
+(define (add x)
+  (+ x 1))
+
+(define (cubic a b c)
+  (lambda (x) (+ (cube x) 
+                 (* a (square x))
+                 (* b x)
+                 c)))
+
+(define (solve-eq a b c)
+  (newtons-method (cubic a b c) 1))
+
+;; exercise 1.41
+
+(define (double f)
+  (lambda (x) (f (f x))))
+
+;; exercise 1.42
+
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+;; exercise 1.43
+
+(define (repeated f times)
+  (if (> times 0)
+      (compose f (repeated f (- times 1)))
+      (lambda (x) x)))

@@ -609,3 +609,23 @@
 
 (define (cube-root x)
   (fixed-point (average-damp (lambda (y) (/ x (square y)))) 1.0))
+
+;; derivative of a function
+
+(define dx 0.00001)
+
+(define (deriv g)
+  (lambda (x) (/ (- (g (+ x dx)) (g x)) dx)))
+
+;; express Newton's method as a fixed-point process
+
+(define (newton-transform g)
+  (lambda (x) (- x (/ (g x) ((deriv g) x)))))
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+
+;; new implementation of sqrt function by using the newtons-method
+
+(define (sqrt x)
+  (newtons-method 
+    (lambda (y) (- (square y) x)) 1.0))

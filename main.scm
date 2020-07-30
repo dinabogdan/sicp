@@ -440,14 +440,16 @@
   (product identity 1 inc n))
 
 (define (pi-aproximation-next-term n)
-  (+ n 2))
+  (if (even? n)
+    (/ (+ n 2) (+ n 1))
+    (/ (+ n 1) (+ n 2))))
 
 (define (pi-aproximation n)
-  (/ (* 
-      (product identity 2 pi-aproximation-next-term n)
-      (product identity 4 pi-aproximation-next-term (+ n 2))
-    )
-    (*
-      (product identity 3 pi-aproximation-next-term (+ n 1))
-      (product identity 3 pi-aproximation-next-term (+ n 1))
-    )))
+  (* (product pi-aproximation-next-term 1 inc n) 4))
+
+(define (iter-product term a next b)
+  (define (iter a result)
+    (if (> a b)
+      result
+      (iter (next a) (* result (term a)))))
+  (iter a 1))

@@ -537,4 +537,37 @@
         (b (- 1 y)))
     (+ (* x (square a))
        (* y b)
-       (* a b)))
+       (* a b))))
+
+;; exercise 1.34
+
+(define (f g) (g 2))
+
+;; if we will try to evaluate (f f) this will lead to the error: "2 is not a function"
+;; first invocation of f will attempt to apply its argument (which is f) to 2
+;; the second invocation of f will attempt to apply its argument (which is 2) to 2 and this leads to error
+
+
+;; finding roots of equations by the half-interval Method
+
+(define (close-enough? x y) 
+  (< (abs (- x y)) 0.001))
+
+(define (search f neg-point pos-point)
+  (let ((midpoint (average neg-point pos-point)))
+    (if (close-enough? neg-point pos-point)
+      midpoint
+      (let ((test-value (f midpoint)))
+        (cond ((positive? test-value) (search f neg-point midpoint))
+              ((negative? test-value) (search f midpoint pos-point))
+              (else midpoint))))))
+
+(define (half-interval-method f a b)
+  (let ((a-value (f a))
+       (b-value (f b)))
+       
+    (cond ((and (negative? a-value) (positive? b-value))
+            (search f a b))
+          ((and (negative? b-value) (positive? a-value))
+            (search f b a))
+          (else (error "Values are not of opposite sign" a b)))))

@@ -670,7 +670,17 @@
 ;; numer and denom are selectors
 
 
-(define (make-rat n d) (cons n d))
+;;(define (make-rat n d) 
+;;  (let ((g (gcd n d)))
+;;    (cons (/ n g) (/ d g))))
+
+;; exercise 2.1
+(define (make-rat n d) 
+  (define (sign x) (if (< x 0) - +)) 
+  (let ((g (gcd n d))) 
+    (cons ((sign d) (/ n g)) 
+              (abs (/ d g))))) 
+
 (define (numer x) (car x))
 (define (denom x) (cdr x))
 
@@ -710,3 +720,4 @@
   (display "/")
   (display (denom x))
   (newline))
+

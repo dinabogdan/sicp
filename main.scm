@@ -721,3 +721,21 @@
   (display (denom x))
   (newline))
 
+;; exercise 2.2
+
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
+
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ", ")
+  (display (y-point p))
+  (display ")")
+  (newline))
+
+(define (make-segment starting-point ending-point) (cons starting-point ending-point))
+(define (start-segment segment) (print-point (car segment)))
+(define (end-segment segment) (print-point (cdr segment)))

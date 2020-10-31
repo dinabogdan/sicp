@@ -660,3 +660,53 @@
   (if (> times 0)
       (compose f (repeated f (- times 1)))
       (lambda (x) x)))
+
+
+;;;;; chapter 2
+
+;; 2.1
+
+;; make-rat is constructor
+;; numer and denom are selectors
+
+
+(define (make-rat n d) (cons n d))
+(define (numer x) (car x))
+(define (denom x) (cdr x))
+
+;; add two rational numbers
+(define (add-rat x y)
+  (make-rat (+ (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+
+;; subtract two rational numbers
+(define (sub-rat x y)
+  (make-rat (- (* (numer x) (denom y)
+                  (numer y) (denom x)))
+            (* (denom x) (denom y))))
+
+
+;; multiply two rational numbers
+(define (mul-rat x y)
+  (make-rat (* (numer x) (numer y))
+            (* (denom x) (denom y))))
+
+;; divide two rational numbers
+(define (div-rat x y)
+  (make-rat (* (numer x) (denom y))
+            (* (numer y) (denom x))))
+
+;; check if two rational numbers are equal
+(define (equal-rat? x y)
+  (= (* (numer x) (denom y))
+     (* (numer y) (denom x))))
+
+;; print rational numbers
+
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  (display "/")
+  (display (denom x))
+  (newline))

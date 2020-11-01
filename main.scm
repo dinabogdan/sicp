@@ -739,3 +739,40 @@
 (define (make-segment starting-point ending-point) (cons starting-point ending-point))
 (define (start-segment segment) (print-point (car segment)))
 (define (end-segment segment) (print-point (cdr segment)))
+
+;; defining cons 
+
+(define (cons x y)
+  (define (dispatch m)
+    (cond ((= m 0) x)
+          ((= m 1) y)
+          (else (error "Argument not 0 or 1: CONS" m))))
+  dispatch)
+(define (car z) (z 0))
+(define (cdr z) (z 1))
+
+
+;; exercise 2.5
+
+(define (exp base n)
+  (define (iter x result)
+    (if (= 0 x)
+        result
+        (iter (- x 1) (* base result))))
+  (iter n 1))
+
+(define (count-0-remainder-divisions n divisor)
+  (define (iter try-exp)
+    (if (= 0 (mod n (exp divisor try-exp)))
+    (iter (+ try-exp 1))
+    (- try-exp 1)))
+  (iter 1))
+
+(define (special-cons a b) 
+  (* (exp 2 a)
+     (exp 3 b)))
+
+(define (special-car z)
+  (count-0-remainder-divisions z 2))
+(define (special-cdr z)
+  (count-0-remainder-divisions z 3))

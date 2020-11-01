@@ -776,3 +776,7 @@
   (count-0-remainder-divisions z 2))
 (define (special-cdr z)
   (count-0-remainder-divisions z 3))
+
+(define zero (lambda (f) (lambda (x) x)))
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
